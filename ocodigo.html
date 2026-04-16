@@ -1,0 +1,738 @@
+PARTE 1
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Os produtos de beleza mais populares na Amazon ES. Seleção de best-sellers com milhares de avaliações reais.">
+    <title>Beleza Amazon | Best Sellers</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #fefaf7;
+            color: #1e1e1e;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        .hero {
+            width: 100%;
+            height: 75vh;
+            min-height: 500px;
+            background-image: url('https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=1920&h=1080&fit=crop');
+            background-size: cover;
+            background-position: center 30%;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hero::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.5) 100%);
+        }
+
+        .hero-text {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            color: white;
+            padding: 20px;
+        }
+
+        .hero-text h2 {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.3);
+        }
+
+        .hero-text p {
+            font-size: 20px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .hero-title {
+            text-align: center;
+            padding: 50px 20px 25px;
+            background: linear-gradient(135deg, #fff 0%, #fefaf7 100%);
+        }
+
+        .hero-title h1 {
+            font-size: 42px;
+            margin-bottom: 12px;
+            color: #1e1e1e;
+        }
+
+        .hero-title p {
+            color: #5a4a4a;
+            font-size: 18px;
+        }
+
+        .nav {
+            text-align: center;
+            padding: 20px 15px;
+            background: white;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.06);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .nav a {
+            display: inline-block;
+            padding: 10px 20px;
+            background: #e0d0c8;
+            color: #2d2a2a;
+            text-decoration: none;
+            border-radius: 40px;
+            font-size: 13px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .nav a:hover {
+            background: #d4b8b0;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .section {
+            margin-top: 60px;
+            scroll-margin-top: 80px;
+        }
+
+        .section h2 {
+            text-align: center;
+            margin-bottom: 15px;
+            font-size: 32px;
+            color: #1e1e1e;
+            font-weight: 600;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: #8a6e6e;
+            margin-bottom: 40px;
+            font-size: 16px;
+        }
+
+        .products {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        @media (max-width: 900px) {
+            .products {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .hero {
+                height: 55vh;
+                min-height: 400px;
+            }
+
+            .hero-title h1 {
+                font-size: 36px;
+            }
+
+            .hero-text h2 {
+                font-size: 34px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .products {
+                grid-template-columns: 1fr;
+            }
+
+            .nav a {
+                padding: 8px 16px;
+                font-size: 12px;
+            }
+
+            .hero {
+                height: 45vh;
+                min-height: 350px;
+            }
+
+            .hero-text h2 {
+                font-size: 28px;
+            }
+        }
+
+        .card {
+            background: white;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 35px rgba(232, 180, 184, 0.2);
+        }
+
+        .card img {
+            width: 100%;
+            aspect-ratio: 1/1;
+            object-fit: cover;
+            background: #faf0ed;
+            display: block;
+        }
+
+        .content {
+            padding: 22px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            flex-grow: 1;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #f5ece8;
+            color: #5a3e3e;
+            font-size: 12px;
+            font-weight: 600;
+            padding: 5px 14px;
+            border-radius: 40px;
+            margin-bottom: 15px;
+        }
+
+        .title {
+            font-weight: 700;
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: #1e1e1e;
+        }
+
+        .rating {
+            color: #f5b81b;
+            font-size: 15px;
+            margin-bottom: 12px;
+            letter-spacing: 2px;
+        }
+
+        .rating span {
+            color: #555;
+            font-size: 13px;
+            margin-left: 5px;
+        }
+
+        .desc {
+            font-size: 14px;
+            color: #2c2c2c;
+            margin-bottom: 20px;
+            width: 100%;
+            text-align: left;
+        }
+
+        .desc strong {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .desc ul {
+            padding-left: 20px;
+            list-style: disc;
+            margin: 0;
+        }
+
+        .desc li {
+            margin-bottom: 6px;
+            line-height: 1.4;
+        }
+
+        .btn {
+            background: #2d2a2a;
+            color: white;
+            text-decoration: none;
+            padding: 12px 20px;
+            text-align: center;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 14px;
+            display: block;
+            transition: all 0.3s ease;
+            margin-top: auto;
+            width: 100%;
+        }
+
+        .btn:hover {
+            background: #e8b4b8;
+            color: #1e1e1e;
+        }
+
+        .affiliate-note {
+            text-align: center;
+            font-size: 12px;
+            color: #aaa;
+            margin-top: 40px;
+            padding: 15px;
+            background: #f9f9f9;
+            border-radius: 12px;
+        }
+
+        footer {
+            text-align: center;
+            margin: 80px 0 30px;
+            color: #8a6e6e;
+            font-size: 14px;
+            padding: 20px;
+            border-top: 1px solid #f0e4e0;
+        }
+
+        footer small {
+            color: #b99;
+            font-size: 12px;
+            display: block;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="hero">
+        <div class="hero-text">
+            <h2>Os Produtos Mais Amados da Amazon</h2>
+            <p>Milhares de avaliações reais de clientes</p>
+        </div>
+    </div>
+
+    <div class="hero-title">
+        <h1>✨ Beauty Best Sellers ✨</h1>
+        <p>Envio rápido • Devolução gratuita</p>
+    </div>
+
+    <div class="nav">
+        <a href="#skincare">🌸 Skincare</a>
+        <a href="#cabelos">💇‍♀️ Cabelos</a>
+        <a href="#maquilhagem">💄 Maquilhagem</a>
+        <a href="#corpo">🛁 Corpo & Banho</a>
+        <a href="#bemestar">🧘‍♀️ Bem-Estar</a>
+        <a href="#kits">🎁 Kits</a>
+    </div>
+
+    <div class="container">
+
+PARTE 2
+       
+<!-- ==================== SKINCARE ========================-->
+       
+
+        <section id="skincare" class="section">
+            <h2>🌸 Skincare Coreano & Cuidados Faciais</h2>
+            <div class="section-subtitle">Pele radiante, saudável e bem tratada</div>
+
+            <div class="products">
+
+             <!-- Biodance Collagen Mask -->
+                <div class="card">
+                    <img src="imagens/biodance-collagen-mask.jpg" alt="Biodance">
+                    <div class="content">
+                        <div class="badge">🏆 +100k avaliações</div>
+                        <div class="title">Biodance Collagen Mask</div>
+                        <div class="rating">★★★★★ <span>4.5/5</span></div>
+                        <div class="desc">
+                            <strong>Pele sem brilho?</strong>
+                            <ul>
+                                <li>Hidratação profunda em 20 min</li>
+                                <li>Efeito "glass skin" coreano</li>
+                                <li>Máscara de bio-celulose que adere como segunda pele</li>
+                            </ul>
+                        </div>
+                        <a href="https://amzn.to/4tdtbkx" class="btn" target="_blank" rel="nofollow">👉 VER NA AMAZON</a>
+                    </div>
+                </div>
+
+          <!-- Kiehl's Ultra Facial Cream -->
+                <div class="card">
+                    <img src="imagens/kiehl's-ultra-facila-cream.jpg" alt="Kiehl's">
+                    <div class="content">
+                        <div class="badge">⭐⭐⭐⭐⭐ 4.5/5</div>
+                        <div class="title">Kiehl's Ultra Facial Cream</div>
+                        <div class="rating">★★★★★ <span>4.5/5</span></div>
+                        <div class="desc">
+                            <strong>Pele seca ou sensível?</strong>
+                            <ul>
+                                <li>72 horas de hidratação contínua</li>
+                                <li>Repara a barreira cutânea sem oleosidade</li>
+                                <li>O queridinho das peles reativas</li>
+                            </ul>
+                        </div>
+                        <a href="https://amzn.to/3Q7Cm7D" class="btn" target="_blank" rel="nofollow">👉 VER NA AMAZON</a>
+                    </div>
+                </div>
+
+           <!-- Anua Heartleaf 77% Toner -->
+                <div class="card">
+                    <img src="imagens/anua-heartleaf-toner.jpg" alt="Anua">
+                    <div class="content">
+                        <div class="badge">🏆 +80k avaliações</div>
+                        <div class="title">Anua Heartleaf 77% Toner</div>
+                        <div class="rating">★★★★★ <span>4.6/5</span></div>
+                        <div class="desc">
+                            <strong>Vermelhidão ou irritação?</strong>
+                            <ul>
+                                <li>Acalma em segundos</li>
+                                <li>Equilibra o pH e reduz a temperatura da pele</li>
+                                <li>Ideal para peles reativas</li>
+                            </ul>
+                        </div>
+                        <a href="https://amzn.to/3Ol8JiE" class="btn" target="_blank" rel="nofollow">👉 VER NA AMAZON</a>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+       
+<!-- ====================== CABELOS ========================-->
+     
+
+        <section id="cabelos" class="section">
+            <h2>💇‍♀️ Cabelos de Salão em Casa</h2>
+            <div class="section-subtitle">Força, brilho e movimento</div>
+
+            <div class="products">
+
+         <!-- Karseell Collagen Hair Mask -->
+                <div class="card">
+                    <img src="imagens/karseell-collagen-hair-mask.jpg" alt="Karseell">
+                    <div class="content">
+                        <div class="badge">🏆 +10k avaliações</div>
+                        <div class="title">Karseell Collagen Hair Mask</div>
+                        <div class="rating">★★★★☆ <span>4.4/5</span></div>
+                        <div class="desc">
+                            <strong>Cabelo danificado e sem vida?</strong>
+                            <ul>
+                                <li>Repara com colágeno + óleo de argán</li>
+                                <li>Transforma fios opacos em cabelo macio e brilhante</li>
+                                <li>Antifrizz duradouro</li>
+                            </ul>
+                        </div>
+                        <a href="https://amzn.to/4cM8aaN" class="btn" target="_blank" rel="nofollow">👉 VER NA AMAZON</a>
+                    </div>
+                </div>
+
+       <!-- REVLON One-Step Plus Volumizer -->
+                <div class="card">
+                    <img src="imagens/revlon-one-step-volumizer.jpg" alt="Revlon">
+                    <div class="content">
+                        <div class="badge">🏆 +200k avaliações</div>
+                        <div class="title">REVLON One-Step Plus Volumizer</div>
+                        <div class="rating">★★★★☆ <span>4.3/5</span></div>
+                        <div class="desc">
+                            <strong>Cabelo sem volume ou frizz?</strong>
+                            <ul>
+                                <li>Escova e secador num só</li>
+                                <li>Tecnologia iónica que doma o frizz</li>
+                                <li>Volume profissional em casa</li>
+                            </ul>
+                        </div>
+                        <a href="https://amzn.to/4vPmkQf" class="btn" target="_blank" rel="nofollow">👉 VER NA AMAZON</a>
+                    </div>
+                </div>
+
+           <!-- Kérastase Elixir Ultime -->
+                <div class="card">
+                    <img src="imagens/kérastase-elixir-ultime.jpg" alt="Kérastase">
+                    <div class="content">
+                        <div class="badge">⭐⭐⭐⭐⭐ 4.6/5</div>
+                        <div class="title">Kérastase Elixir Ultime</div>
+                        <div class="rating">★★★★★ <span>4.6/5</span></div>
+                        <div class="desc">
+                            <strong>Cabelo opaco e sem brilho?</strong>
+                            <ul>
+                                <li>Óleo de luxo que dá brilho de espelho</li>
+                                <li>Protege do calor até 230°C</li>
+                                <li>Nutre sem pesar, doma o frizz</li>
+                            </ul>
+                        </div>
+                        <a href="https://amzn.to/4sDEXDN" class="btn" target="_blank" rel="nofollow">👉 VER NA AMAZON</a>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+       
+<!-- ================ MAQUILHAGEM ======================= -->
+        
+
+        <section id="maquilhagem" class="section">
+            <h2>💄 Maquilhagem Mais Vendida</h2>
+            <div class="section-subtitle">Realce a sua expressão com elegância</div>
+
+            <div class="products">
+
+         <!-- Maybelline Lash Sensational -->
+                <div class="card">
+                    <img src="imagens/maybelline-lash-sensational.jpg" alt="Maybelline">
+                    <div class="content">
+                        <div class="badge">🏆 +100k avaliações</div>
+                        <div class="title">Maybelline Lash Sensational</div>
+                        <div class="rating">★★★★★ <span>4.5/5</span></div>
+                        <div class="desc">
+                            <strong>Pestanas curtas e sem volume?</strong>
+                            <ul>
+                                <li>Pente em leque que alonga, separa e curva</li>
+                                <li>Efeito dramático sem grumos</li>
+                                <li>A máscara mais vendida em Espanha</li>
+                            </ul>
+                        </div>
+                        <a href="https://amzn.to/4sDEXDN" class="btn" target="_blank" rel="nofollow">👉 VER NA AMAZON</a>
+                    </div>
+                </div>
+
+    <!-- Paleta de Sombras Nude Revolution -->
+                <div class="card">
+                    <img src="imagens/paleta-sombras-nude.jpg" alt="Paleta">
+                    <div class="content">
+                        <div class="badge">🏆 +80k avaliações</div>
+                        <div class="title">Paleta de Sombras Nude Revolution</div>
+                        <div class="rating">★★★★☆ <span>4.4/5</span></div>
+                        <div class="desc">
+                            <strong>Sem ideias para maquilhar?</strong>
+                            <ul>
+                                <li>12 tons nudes de alta pigmentação</li>
+                                <li>Acabamentos mate e cintilante</li>
+                                <li>Looks do dia para a noite sem esforço</li>
+                            </ul>
+                        </div>
+                        <a href="https://amzn.to/4cmZoQF" class="btn" target="_blank" rel="nofollow">👉 VER NA AMAZON</a>
+                    </div>
+                </div>
+
+            <!-- Baton Líquido Matte NYX -->
+                <div class="card">
+                    <img src="imagens/batom-liquido-matte-nyx.jpg" alt="Baton NYX">
+                    <div class="content">
+                        <div class="badge">🏆 +50k avaliações</div>
+                        <div class="title">Baton Líquido Matte NYX</div>
+                        <div class="rating">★★★★★ <span>4.4/5</span></div>
+                        <div class="desc">
+                            <strong>Batom que não dura?</strong>
+                            <ul>
+                                <li>16 horas de cor sem transferir</li>
+                                <li>Fórmula cremosa que não resseca</li>
+                                <li>Acabamento mate elegante</li>
+                            </ul>
+                        </div>
+                        <a href="https://amzn.to/4cmVJAY" class="btn" target="_blank" rel="nofollow">👉 VER NA AMAZON</a>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        
+<!-- =================== CORPO & BANHO ================= -->
+       
+
+        <section id="corpo" class="section">
+            <h2>🛁 Relaxamento & Cuidado Corporal</h2>
+            <div class="section-subtitle">Transforme a sua casa num SPA</div>
+
+            <div class="products">
+
+        <!-- Sol de Janeiro Bum Bum Cream -->
+                <div class="card">
+                    <img src="imagens/sol-janeiro-bum.jpg" alt="Sol de Janeiro">
+                    <div class="content">
+                        <div class="badge">🏆 +37k avaliações</div>
+                        <div class="title">Sol de Janeiro Bum Bum Cream</div>
+                        <div class="rating">★★★★★ <span>4.7/5</span></div>
+                        <div class="desc">
+                            <strong>Pele sem firmeza ou sem cheiro?</strong>
+                            <ul>
+                                <li>Fragrância viciante de pistáchio e caramelo</li>
+                                <li>Hidrata e firma com rápida absorção</li>
+                                <li>Sem sensação pegajosa</li>
+                            </ul>
+                        </div>
+                        <a href="https://amzn.to/4vw7uOb" class="btn" target="_blank" rel="nofollow">👉 VER NA AMAZON</a>
+                    </div>
+                </div>
+
+          <!-- Kamill Classic Hand Cream -->
+                <div class="card">
+                    <img src="imagens/kamill-classic-hand-cream.jpg" alt="Kamill">
+                    <div class="content">
+                        <div class="badge">⭐ Amazon's Choice</div>
+                        <div class="title">Kamill Classic Hand Cream</div>
+                        <div class="rating">★★★★★ <span>4.6/5</span></div>
+                        <div class="desc">
+                            <strong>Mãos secas e gretadas?</strong>
+                            <ul>
+                                <li>Hidratação intensa com manzanilla orgânica</li>
+                                <li>Protege e repara peles agredidas</li>
+                                <li>Vegano, a mais vendida para mãos</li>
+                            </ul>
+                        </div>
+                        <a href="https://amzn.to/3Q4b8Ph" class="btn" target="_blank" rel="nofollow">👉 VER NA AMAZON</a>
+                    </div>
+                </div>
+
+           <!-- Tree Hut Shea Sugar Scrub -->
+                <div class="card">
+                    <img src="imagens/tree-hut-shea-sugar-scrub.jpg" alt="Tree Hut">
+                    <div class="content">
+                        <div class="badge">🏆 +70k avaliações</div>
+                        <div class="title">Tree Hut Shea Sugar Scrub</div>
+                        <div class="rating">★★★★★ <span>4.6/5</span></div>
+                        <div class="desc">
+                            <strong>Pele áspera e sem brilho?</strong>
+                            <ul>
+                                <li>Esfolia com açúcar natural</li>
+                                <li>Hidrata com manteiga de karité</li>
+                                <li>Aroma tropical glow, pele macia</li>
+                            </ul>
+                        </div>
+                        <a href="https://amzn.to/4sAXIrq" class="btn" target="_blank" rel="nofollow">👉 VER NA AMAZON</a>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+       
+<!-- ===================== BEM-ESTAR ==================== -->
+     
+
+        <section id="bemestar" class="section">
+            <h2>🧘‍♀️ Bem-Estar e Auto-Cuidado</h2>
+            <div class="section-subtitle">Equilíbrio para o seu dia-a-dia</div>
+
+            <div class="products">
+
+         <!-- Hero Cosmetics Mighty Patch -->
+                <div class="card">
+                    <img src="imagens/hero-cosmetics-mighty-patch.jpg" alt="Hero">
+                    <div class="content">
+                        <div class="badge">🏆 +50k avaliações</div>
+                        <div class="title">Hero Cosmetics Mighty Patch</div>
+                        <div class="rating">★★★★★ <span>4.5/5</span></div>
+                        <div class="desc">
+                            <strong>Borbulha teimosa?</strong>
+                            <ul>
+                                <li>Patch de hidrocolóide que absorve impurezas durante a noite</li>
+                                <li>Reduz vermelhidão sem rebentar a espinha</li>
+                                <li>Clínico, seguro para todas as peles</li>
+                            </ul>
+                        </div>
+                        <a href="https://amzn.to/4cxITjn" class="btn" target="_blank" rel="nofollow">👉 VER NA AMAZON</a>
+                    </div>
+                </div>
+
+         <!-- Medicube Zero Pore Pads 2.0 -->
+                <div class="card">
+                    <img src="imagens/medicube-zero-pore-pads2.0.jpg" alt="Medicube">
+                    <div class="content">
+                        <div class="badge">🏆 +20k avaliações</div>
+                        <div class="title">Medicube Zero Pore Pads 2.0</div>
+                        <div class="rating">★★★★★ <span>4.3/5</span></div>
+                        <div class="desc">
+                            <strong>Poros dilatados ou oleosidade?</strong>
+                            <ul>
+                                <li>Discos que reduzem poros e controlam a oleosidade</li>
+                                <li>Esfoliação suave</li>
+                                <li>Ideal para peles mistas ou com acne</li>
+                            </ul>
+                        </div>
+                        <a href="https://amzn.to/4dKLOaJ" class="btn" target="_blank" rel="nofollow">👉 VER NA AMAZON</a>
+                    </div>
+                </div>
+
+        <!-- RENPHO Foot Massager Machine -->
+                <div class="card">
+                    <img src="imagens/renpho-foot-massager.jpg" alt="RENPHO">
+                    <div class="content">
+                        <div class="badge">🏆 +30k avaliações</div>
+                        <div class="title">RENPHO Foot Massager Machine</div>
+                        <div class="rating">★★★★★ <span>4.4/5</span></div>
+                        <div class="desc">
+                            <strong>Pés cansados ou dor na sola?</strong>
+                            <ul>
+                                <li>Massagem com calor ajustável</li>
+                                <li>Alivia dores de fascite plantar</li>
+                                <li>Melhora a circulação, o best-seller da categoria</li>
+                            </ul>
+                        </div>
+                        <a href="https://amzn.to/3Qq9VBM" class="btn" target="_blank" rel="nofollow">👉 VER NA AMAZON</a>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+      
+<!-- ========================= KITS ========================= -->
+      
+
+        <section id="kits" class="section">
+            <h2>🎁 Kits Perfeitos para Ofertar</h2>
+            <div class="section-subtitle">Presentes que acertam sempre</div>
+
+            <div class="products">
+
+         <!-- COSRX Snail Mucin Power Set -->
+                <div class="card">
+                    <img src="imagens/cosrx-snail-mucin-set.jpg" alt="COSRX">
+                    <div class="content">
+                        <div class="badge">🏆 +88k avaliações</div>
+                        <div class="title">COSRX Snail Mucin Power Set</div>
+                        <div class="rating">★★★★★ <span>4.6/5</span></div>
+                        <div class="desc">
+                            <
+PARTE 3
+        </section>
+
+    </div> <!-- fim do .container -->
+
+    <div class="affiliate-note">
+        💡 Somos afiliados Amazon. As nossas recomendações são independentes e baseadas em pesquisa de mercado.
+        Ao comprar através dos nossos links, você não paga nada extra e ajuda a manter o site. Obrigada! 💗
+    </div>
+
+    <footer>
+        ✨ Beauty Best Sellers • Baseado nos produtos com melhores avaliações da Amazon ✨
+        <br>
+        Preços e disponibilidade sujeitos a alteração. Verifique na Amazon antes de finalizar a compra.
+        <small>Imagens ilustrativas. Produtos reais disponíveis na Amazon ES.</small>
+    </footer>
+
+</body>
+</html>
